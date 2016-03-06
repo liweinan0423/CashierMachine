@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class CashierMachine {
@@ -14,9 +15,11 @@ public class CashierMachine {
     private List<Item> items;
     private double totalPrice;
     private StringBuilder receiptBuilder;
+    private Map<String, Item> itemsStore;
 
-    public CashierMachine(String storeName) {
+    public CashierMachine(String storeName, Map<String, Item> itemsStore) {
         this.storeName = storeName;
+        this.itemsStore = itemsStore;
     }
 
     public void scan(String input) {
@@ -33,14 +36,8 @@ public class CashierMachine {
     }
 
     private Item createItem(String barcode) {
-        switch (barcode) {
-            case "ITEM001":
-                return new Item(barcode, "可口可乐", 3.00, "瓶");
-            case "ITEM002":
-                return new Item(barcode, "羽毛球", 2.00, "个");
-            default:
-                throw new RuntimeException("Item not found!");
-        }
+        Item prototype = itemsStore.get(barcode);
+        return new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
     }
 
     public void start() {

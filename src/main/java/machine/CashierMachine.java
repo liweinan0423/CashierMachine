@@ -15,11 +15,11 @@ public class CashierMachine {
     private List<Item> items;
     private double totalPrice;
     private StringBuilder receiptBuilder;
-    private Map<String, Item> itemsStore;
+    private Map<String, Item> catalog;
 
     public CashierMachine(String storeName, Map<String, Item> itemsStore) {
         this.storeName = storeName;
-        this.itemsStore = itemsStore;
+        this.catalog = itemsStore;
     }
 
     public void scan(String input) {
@@ -38,12 +38,12 @@ public class CashierMachine {
     private Item createItem(String barcode) {
         String[] split = barcode.split("-");
         if (split.length == 1) {
-            Item prototype = itemsStore.get(barcode);
+            Item prototype = catalog.get(barcode);
             return new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
         } else {
             String code = split[0];
             int quantity = Integer.parseInt(split[1]);
-            Item prototype = itemsStore.get(code);
+            Item prototype = catalog.get(code);
             Item item = new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
             item.setQuantity(quantity);
             return item;

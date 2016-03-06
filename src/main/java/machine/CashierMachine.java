@@ -22,7 +22,7 @@ public class CashierMachine {
     public void scan(String input) {
         List<String> barcodes = GSON.<List<String>>fromJson(input, List.class);
         barcodes.forEach(barcode -> {
-            Item item = new Item(barcode, "可口可乐", 3.00, "瓶", 1);
+            Item item = createItem(barcode);
             if (items.stream().anyMatch(i -> i.getBarcode().equals(barcode))) {
                 Optional<Item> first = items.stream().filter(i -> i.getBarcode().equals(barcode)).findFirst();
                 first.get().setQuantity(first.get().getQuantity() + 1);
@@ -30,6 +30,17 @@ public class CashierMachine {
                 items.add(item);
             }
         });
+    }
+
+    private Item createItem(String barcode) {
+        switch (barcode) {
+            case "ITEM001":
+                return new Item(barcode, "可口可乐", 3.00, "瓶");
+            case "ITEM002":
+                return new Item(barcode, "羽毛球", 2.00, "个");
+            default:
+                throw new RuntimeException("Item not found!");
+        }
     }
 
     public void start() {

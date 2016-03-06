@@ -8,12 +8,12 @@ public class Item {
     private double subTotal;
     private int quantity;
 
-    public Item(String barcode, String name, double price, String unit, int quantity) {
+    public Item(String barcode, String name, double price, String unit) {
         this.barcode = barcode;
         this.name = name;
         this.price = price;
         this.unit = unit;
-        this.quantity = quantity;
+        setQuantity(1);
     }
 
     public void calculate() {

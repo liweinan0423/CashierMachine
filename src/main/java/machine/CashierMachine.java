@@ -36,8 +36,18 @@ public class CashierMachine {
     }
 
     private Item createItem(String barcode) {
-        Item prototype = itemsStore.get(barcode);
-        return new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
+        String[] split = barcode.split("-");
+        if (split.length == 1) {
+            Item prototype = itemsStore.get(barcode);
+            return new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
+        } else {
+            String code = split[0];
+            int quantity = Integer.parseInt(split[1]);
+            Item prototype = itemsStore.get(code);
+            Item item = new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
+            item.setQuantity(quantity);
+            return item;
+        }
     }
 
     public void start() {

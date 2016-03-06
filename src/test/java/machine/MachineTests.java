@@ -64,6 +64,18 @@ public class MachineTests {
 
     @Test
     public void item_with_quantity() {
+        machine.start();
+        machine.scan("['ITEM001', 'ITEM002', 'ITEM003-2']");
+        machine.calculate();
+        String receipt = machine.print();
+        String expected = "***<没钱赚商店>购物清单***\n"
+                + "名称: 可口可乐, 数量: 1瓶, 单价: 3.00(元), 小计: 3.00(元)\n"
+                + "名称: 羽毛球, 数量: 1个, 单价: 2.00(元), 小计: 2.00(元)\n"
+                + "名称: 苹果, 数量: 2斤, 单价: 3.00(元), 小计: 6.00(元)\n"
+                + "----------\n"
+                + "总计: 11.00(元)\n"
+                + "**********\n";
+        assertEquals(expected, receipt);
     }
 
 }

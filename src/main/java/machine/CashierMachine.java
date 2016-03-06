@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class CashierMachine {
 
@@ -22,7 +23,12 @@ public class CashierMachine {
         List<String> barcodes = GSON.<List<String>>fromJson(input, List.class);
         barcodes.forEach(barcode -> {
             Item item = new Item(barcode, "可口可乐", 3.00, "瓶", 1);
-            items.add(item);
+            if (items.stream().anyMatch(i -> i.getBarcode().equals(barcode))) {
+                Optional<Item> first = items.stream().filter(i -> i.getBarcode().equals(barcode)).findFirst();
+                first.get().setQuantity(first.get().getQuantity() + 1);
+            } else {
+                items.add(item);
+            }
         });
     }
 

@@ -39,4 +39,12 @@ public class Item {
     public double getPrice() {
         return price;
     }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 }

@@ -1,5 +1,6 @@
 package machine;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static machine.Fixture.catalog;
@@ -7,9 +8,15 @@ import static org.junit.Assert.assertEquals;
 
 public class MachineTests {
 
+    private CashierMachine machine;
+
+    @Before
+    public void setUp() {
+        machine = new CashierMachine("没钱赚商店", catalog);
+    }
+
     @Test
     public void one_item() {
-        CashierMachine machine = new CashierMachine("没钱赚商店", catalog);
         machine.start();
         machine.scan("[ITEM001]");
         machine.calculate();
@@ -27,7 +34,6 @@ public class MachineTests {
 
     @Test
     public void one_item_multiple() {
-        CashierMachine machine = new CashierMachine("没钱赚商店", catalog);
         machine.start();
         machine.scan("['ITEM001', 'ITEM001']");
         machine.calculate();
@@ -43,7 +49,6 @@ public class MachineTests {
 
     @Test
     public void multiple_items() {
-        CashierMachine machine = new CashierMachine("没钱赚商店", catalog);
         machine.start();
         machine.scan("['ITEM001', 'ITEM002', 'ITEM002']");
         machine.calculate();
@@ -56,4 +61,9 @@ public class MachineTests {
                 + "**********\n";
         assertEquals(expected, receipt);
     }
+
+    @Test
+    public void item_with_quantity() {
+    }
+
 }

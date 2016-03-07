@@ -29,10 +29,13 @@ public class CashierMachine {
     }
 
     public void scan(String input) {
-        List<String> barcodes = GSON.<List<String>>fromJson(input, List.class);
-        barcodes.forEach(barcodeString -> {
-            order.addItem(new Barcode(barcodeString), createItem(new Barcode(barcodeString)));
-        });
+        List<String> barcodes = parse(input);
+        barcodes.forEach(barcodeString ->
+                order.addItem(new Barcode(barcodeString), createItem(new Barcode(barcodeString))));
+    }
+
+    private List<String> parse(String input) {
+        return GSON.<List<String>>fromJson(input, List.class);
     }
 
     private Item createItem(Barcode barcode) {

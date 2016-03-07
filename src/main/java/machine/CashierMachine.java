@@ -17,12 +17,11 @@ public class CashierMachine {
     private double totalPrice;
     private StringBuilder receiptBuilder;
     private Map<String, Item> catalog;
-    private double percentage;
-    private List<String> percentagePromotionBarcodes = new ArrayList<>();
     private double totalSaving;
     private List<String> buyXGetYFreePromotionBarcodes = new ArrayList<>();
     private int x;
     private int y;
+    private PercentagePromotion percentagePromotion;
 
     public CashierMachine(String storeName, Map<String, Item> itemsStore) {
         this.storeName = storeName;
@@ -64,8 +63,8 @@ public class CashierMachine {
 
     public void calculate() {
         items.forEach(Item::calculate);
-        if (items.stream().anyMatch(item -> percentagePromotionBarcodes.contains(item.getBarcode()))) {
-            items.stream().filter(item -> percentagePromotionBarcodes.contains(item.getBarcode())).forEach(item -> item.applyPercentagePromotion(percentage));
+        if (items.stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getBarcode()))) {
+            items.stream().filter(item -> getPercentagePromotionBarcodes().contains(item.getBarcode())).forEach(item -> item.applyPercentagePromotion(getPercentage()));
         }
         if (items.stream().anyMatch(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode()))) {
             items.stream().filter(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode())).forEach(item -> item.applyBuyXGetYFreePromotion(x, y));
@@ -139,7 +138,7 @@ public class CashierMachine {
     }
 
     private boolean hasPercentagePromotion() {
-        return items.stream().anyMatch(item -> percentagePromotionBarcodes.contains(item.getBarcode()));
+        return items.stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getBarcode()));
     }
 
     private boolean hasBuyXGetYFreePromotion() {
@@ -147,21 +146,36 @@ public class CashierMachine {
     }
 
     private boolean hasPercentagePromotion(Item item) {
-        return percentagePromotionBarcodes.contains(item.getBarcode());
+        return getPercentagePromotionBarcodes().contains(item.getBarcode());
     }
 
     public void reset() {
 
     }
 
-    public void setUpPercentagePromotion(double percentage, String... barcodes) {
-        this.percentage = percentage;
-        this.percentagePromotionBarcodes = Arrays.asList(barcodes);
-    }
-
     public void setUpBuyXGetYFreePromotion(int x, int y, String... barcodes) {
         this.x = x;
         this.y = y;
         this.buyXGetYFreePromotionBarcodes = Arrays.asList(barcodes);
+    }
+
+    public void setUpPercentagePromotion(double percentage, String... barcodes) {
+        percentagePromotion = new PercentagePromotion(percentage, barcodes);
+    }
+
+    public double getPercentage() {
+        if (percentagePromotion != null) {
+            return percentagePromotion.getPercentage();
+        } else {
+            return 1;
+        }
+    }
+
+    public List<String> getPercentagePromotionBarcodes() {
+        if (percentagePromotion != null) {
+            return percentagePromotion.getBarcodes();
+        } else {
+            return new ArrayList<>();
+        }
     }
 }

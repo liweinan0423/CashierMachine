@@ -8,8 +8,6 @@ public class Item {
     private double subTotal;
     private int quantity;
     private double totalPayable;
-    private Object saving;
-    private Object freeQuantity;
 
     public Item(String barcode, String name, double price, String unit) {
         this.barcode = barcode;

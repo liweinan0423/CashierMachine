@@ -13,13 +13,13 @@ public class CashierMachine {
 
     private String storeName;
     private StringBuilder receiptBuilder;
-    private Map<String, Item> catalog;
+    private Map<String, Product> catalog;
     private PercentagePromotion percentagePromotion;
     private BuyXGetYFreePromotion buyXGetYFreePromotion;
 
     private final Order order = new Order();
 
-    public CashierMachine(String storeName, Map<String, Item> catalog) {
+    public CashierMachine(String storeName, Map<String, Product> catalog) {
         this.storeName = storeName;
         this.catalog = catalog;
     }
@@ -42,8 +42,8 @@ public class CashierMachine {
         String productCode = barcode.getProductCode();
         int quantity = barcode.getQuantity();
 
-        Item prototype = catalog.get(productCode);
-        Item item = new Item(new Product(prototype.getProductCode(), prototype.getName(), prototype.getPrice(), prototype.getUnit()));
+        Product product = catalog.get(productCode);
+        Item item = new Item(product);
         item.setQuantity(quantity);
         return item;
     }

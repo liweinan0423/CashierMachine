@@ -43,7 +43,7 @@ public class CashierMachine {
         int quantity = barcode.getQuantity();
 
         Item prototype = catalog.get(productCode);
-        Item item = new Item(prototype.getProductCode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
+        Item item = new Item(new Product(prototype.getProductCode(), prototype.getName(), prototype.getPrice(), prototype.getUnit()));
         item.setQuantity(quantity);
         return item;
     }

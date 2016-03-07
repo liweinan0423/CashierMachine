@@ -1,32 +1,22 @@
 package machine;
 
 public class Item {
-    private final String barcode;
-    private final String name;
-    private final double price;
-    private final String unit;
+    private final Product product;
     private double subTotal;
     private int quantity;
     private double totalPayable;
 
-    public Item(String barcode, String name, double price, String unit) {
-        this.barcode = barcode;
-        this.name = name;
-        this.price = price;
-        this.unit = unit;
+    public Item(Product product) {
+        this.product = product;
         setQuantity(1);
     }
 
     public void calculate() {
-        this.totalPayable = this.subTotal = price * quantity;
-    }
-
-    public double getSubTotal() {
-        return subTotal;
+        this.totalPayable = this.subTotal = getPrice() * quantity;
     }
 
     public String getName() {
-        return name;
+        return product.getName();
     }
 
     public int getQuantity() {
@@ -34,15 +24,15 @@ public class Item {
     }
 
     public String getUnit() {
-        return unit;
+        return product.getUnit();
     }
 
     public double getPrice() {
-        return price;
+        return product.getPrice();
     }
 
     public String getProductCode() {
-        return barcode;
+        return product.getProductCode();
     }
 
     public void setQuantity(int quantity) {
@@ -63,10 +53,10 @@ public class Item {
 
     public void applyBuyXGetYFreePromotion(int x, int y) {
         setQuantity(quantity + quantity / x * y);
-        subTotal = quantity * price;
+        subTotal = quantity * getPrice();
     }
 
     public int getFreeQuantity() {
-        return (int) (getSaving() / price);
+        return (int) (getSaving() / getPrice());
     }
 }

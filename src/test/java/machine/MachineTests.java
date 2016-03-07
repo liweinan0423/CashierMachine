@@ -78,4 +78,21 @@ public class MachineTests {
         assertEquals(expected, receipt);
     }
 
+    @Test
+    public void item_with_percentage_promotion() {
+        machine.setUpPercentagePromotion(0.95, "ITEM001");
+        machine.start();
+        machine.scan("[ITEM001]");
+        machine.calculate();
+        String receipt = machine.print();
+        String expected = "***<没钱赚商店>购物清单***\n"
+                + "名称: 可口可乐, 数量: 1瓶, 单价: 3.00(元), 小计: 2.85(元), 节省0.15(元)\n"
+                + "----------\n"
+                + "总计: 2.85(元)\n"
+                + "节省: 0.15(元)\n"
+                + "**********\n";
+
+        assertEquals(expected, receipt);
+    }
+
 }

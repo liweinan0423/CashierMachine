@@ -3,6 +3,7 @@ package machine;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +17,9 @@ public class CashierMachine {
     private double totalPrice;
     private StringBuilder receiptBuilder;
     private Map<String, Item> catalog;
+    private double percentage;
+    private List<String> percentagePromotionBarcodes = new ArrayList<>();
+    private double totalSaving;
 
     public CashierMachine(String storeName, Map<String, Item> itemsStore) {
         this.storeName = storeName;
@@ -57,7 +61,11 @@ public class CashierMachine {
 
     public void calculate() {
         items.forEach(Item::calculate);
-        totalPrice = items.stream().mapToDouble(Item::getSubTotal).sum();
+        if (items.stream().anyMatch(item -> percentagePromotionBarcodes.contains(item.getBarcode()))) {
+            items.stream().filter(item -> percentagePromotionBarcodes.contains(item.getBarcode())).forEach(item -> item.applyPercentagePromotion(percentage));
+        }
+        totalPrice = items.stream().mapToDouble(Item::getTotalPayable).sum();
+        totalSaving = items.stream().mapToDouble(Item::getSaving).sum();
     }
 
     public String print() {
@@ -79,6 +87,13 @@ public class CashierMachine {
 
     private void printSummary() {
         receiptBuilder.append(String.format("总计: %.2f(元)\n", totalPrice));
+        if (hasPercentagePromotion()) {
+            receiptBuilder.append(String.format("节省: %.2f(元)\n", totalSaving));
+        }
+    }
+
+    private boolean hasPercentagePromotion() {
+        return items.stream().anyMatch(this::hasPercentagePromotion);
     }
 
     private void printItems() {
@@ -86,13 +101,28 @@ public class CashierMachine {
     }
 
     private void print(Item item) {
-        receiptBuilder.append(String.format("名称: %s, 数量: %d%s, 单价: %.2f(元), 小计: %.2f(元)\n",
-                item.getName(),
-                item.getQuantity(),
-                item.getUnit(),
-                item.getPrice(),
-                item.getSubTotal()
-                ));
+        if (hasPercentagePromotion(item)) {
+            receiptBuilder.append(String.format("名称: %s, 数量: %d%s, 单价: %.2f(元), 小计: %.2f(元), 节省%.2f(元)\n",
+                    item.getName(),
+                    item.getQuantity(),
+                    item.getUnit(),
+                    item.getPrice(),
+                    item.getTotalPayable(),
+                    item.getSaving()
+            ));
+        } else {
+            receiptBuilder.append(String.format("名称: %s, 数量: %d%s, 单价: %.2f(元), 小计: %.2f(元)\n",
+                    item.getName(),
+                    item.getQuantity(),
+                    item.getUnit(),
+                    item.getPrice(),
+                    item.getTotalPayable()
+            ));
+        }
+    }
+
+    private boolean hasPercentagePromotion(Item item) {
+        return percentagePromotionBarcodes.contains(item.getBarcode());
     }
 
     private void printHeader() {
@@ -101,5 +131,10 @@ public class CashierMachine {
 
     public void reset() {
 
+    }
+
+    public void setUpPercentagePromotion(double percentage, String... barcodes) {
+        this.percentage = percentage;
+        this.percentagePromotionBarcodes = Arrays.asList(barcodes);
     }
 }

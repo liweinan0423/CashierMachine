@@ -84,37 +84,8 @@ public class CashierMachine {
         return receiptBuilder.toString();
     }
 
-    private void printPromotionSummary() {
-        if (hasBuyXGetYFreePromotion()) {
-            receiptBuilder.append("买二赠一商品:\n");
-            items.stream().filter(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode())).forEach(item -> {
-                receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit()));
-            });
-            printDelimiter();
-        }
-    }
-
-    private boolean hasBuyXGetYFreePromotion() {
-        return items.stream().anyMatch(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode()));
-    }
-
-    private void printDelimiter() {
-        receiptBuilder.append("----------\n");
-    }
-
-    private void printFooter() {
-        receiptBuilder.append("**********\n");
-    }
-
-    private void printSummary() {
-        receiptBuilder.append(String.format("总计: %.2f(元)\n", totalPrice));
-        if (hasPercentagePromotion() || hasBuyXGetYFreePromotion()) {
-            receiptBuilder.append(String.format("节省: %.2f(元)\n", totalSaving));
-        }
-    }
-
-    private boolean hasPercentagePromotion() {
-        return items.stream().anyMatch(this::hasPercentagePromotion);
+    private void printHeader() {
+        receiptBuilder.append("***<").append(storeName).append(">购物清单***\n");
     }
 
     private void printItems() {
@@ -142,12 +113,41 @@ public class CashierMachine {
         }
     }
 
-    private boolean hasPercentagePromotion(Item item) {
-        return percentagePromotionBarcodes.contains(item.getBarcode());
+    private void printPromotionSummary() {
+        if (hasBuyXGetYFreePromotion()) {
+            receiptBuilder.append("买二赠一商品:\n");
+            items.stream().filter(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode())).forEach(item -> {
+                receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit()));
+            });
+            printDelimiter();
+        }
     }
 
-    private void printHeader() {
-        receiptBuilder.append("***<").append(storeName).append(">购物清单***\n");
+    private void printDelimiter() {
+        receiptBuilder.append("----------\n");
+    }
+
+    private void printFooter() {
+        receiptBuilder.append("**********\n");
+    }
+
+    private void printSummary() {
+        receiptBuilder.append(String.format("总计: %.2f(元)\n", totalPrice));
+        if (hasPercentagePromotion() || hasBuyXGetYFreePromotion()) {
+            receiptBuilder.append(String.format("节省: %.2f(元)\n", totalSaving));
+        }
+    }
+
+    private boolean hasPercentagePromotion() {
+        return items.stream().anyMatch(item -> percentagePromotionBarcodes.contains(item.getBarcode()));
+    }
+
+    private boolean hasBuyXGetYFreePromotion() {
+        return items.stream().anyMatch(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode()));
+    }
+
+    private boolean hasPercentagePromotion(Item item) {
+        return percentagePromotionBarcodes.contains(item.getBarcode());
     }
 
     public void reset() {

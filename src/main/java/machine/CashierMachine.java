@@ -16,11 +16,16 @@ public class CashierMachine {
     private PercentagePromotion percentagePromotion;
     private BuyXGetYFreePromotion buyXGetYFreePromotion;
 
-    private final Order order = new Order();
+    private Order order;
 
     public CashierMachine(String storeName, Map<String, Product> catalog) {
         this.storeName = storeName;
         this.catalog = catalog;
+    }
+
+    public void start() {
+        order = new Order();
+        receiptBuilder = new StringBuilder();
     }
 
     public void scan(String input) {
@@ -38,11 +43,6 @@ public class CashierMachine {
         Item item = new Item(product);
         item.setQuantity(quantity);
         return item;
-    }
-
-    public void start() {
-        this.order.setItems(new ArrayList<>());
-        receiptBuilder = new StringBuilder();
     }
 
     public void calculate() {

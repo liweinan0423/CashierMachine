@@ -1,10 +1,11 @@
 package machine;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 public class Order {
-    List<Item> items;
+    List<Item> items = new ArrayList<>();
     double totalPrice;
     double totalSaving;
 

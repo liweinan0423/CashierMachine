@@ -28,8 +28,8 @@ public class CashierMachine {
         List<String> barcodes = GSON.<List<String>>fromJson(input, List.class);
         barcodes.forEach(barcode -> {
             Item item = createItem(barcode);
-            if (order.getItems().stream().anyMatch(i -> i.getBarcode().equals(barcode))) {
-                Optional<Item> first = order.getItems().stream().filter(i -> i.getBarcode().equals(barcode)).findFirst();
+            if (order.getItems().stream().anyMatch(i -> i.getProductCode().equals(barcode))) {
+                Optional<Item> first = order.getItems().stream().filter(i -> i.getProductCode().equals(barcode)).findFirst();
                 first.get().setQuantity(first.get().getQuantity() + 1);
             } else {
                 order.getItems().add(item);
@@ -37,19 +37,15 @@ public class CashierMachine {
         });
     }
 
-    private Item createItem(String barcode) {
-        String[] split = barcode.split("-");
-        if (split.length == 1) {
-            Item prototype = catalog.get(barcode);
-            return new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
-        } else {
-            String code = split[0];
-            int quantity = Integer.parseInt(split[1]);
-            Item prototype = catalog.get(code);
-            Item item = new Item(prototype.getBarcode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
-            item.setQuantity(quantity);
-            return item;
-        }
+    private Item createItem(String barcodeString) {
+        Barcode barcode = new Barcode(barcodeString);
+        String productCode = barcode.getProductCode();
+        int quantity = barcode.getQuantity();
+
+        Item prototype = catalog.get(productCode);
+        Item item = new Item(prototype.getProductCode(), prototype.getName(), prototype.getPrice(), prototype.getUnit());
+        item.setQuantity(quantity);
+        return item;
     }
 
     public void start() {
@@ -59,11 +55,11 @@ public class CashierMachine {
 
     public void calculate() {
         order.getItems().forEach(Item::calculate);
-        if (order.getItems().stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getBarcode()))) {
-            order.getItems().stream().filter(item -> getPercentagePromotionBarcodes().contains(item.getBarcode())).forEach(item -> item.applyPercentagePromotion(getPercentage()));
+        if (order.getItems().stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getProductCode()))) {
+            order.getItems().stream().filter(item -> getPercentagePromotionBarcodes().contains(item.getProductCode())).forEach(item -> item.applyPercentagePromotion(getPercentage()));
         }
-        if (order.getItems().stream().anyMatch(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getBarcode()))) {
-            order.getItems().stream().filter(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getBarcode())).forEach(item -> item.applyBuyXGetYFreePromotion(getX(), getY()));
+        if (order.getItems().stream().anyMatch(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode()))) {
+            order.getItems().stream().filter(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode())).forEach(item -> item.applyBuyXGetYFreePromotion(getX(), getY()));
         }
         this.order.setTotalPrice(order.getItems().stream().mapToDouble(Item::getTotalPayable).sum());
         this.order.setTotalSaving(order.getItems().stream().mapToDouble(Item::getSaving).sum());
@@ -111,7 +107,7 @@ public class CashierMachine {
     private void printPromotionSummary() {
         if (hasBuyXGetYFreePromotion()) {
             receiptBuilder.append("买二赠一商品:\n");
-            order.getItems().stream().filter(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getBarcode())).forEach(item -> {
+            order.getItems().stream().filter(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode())).forEach(item -> {
                 receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit()));
             });
             printDelimiter();
@@ -134,15 +130,15 @@ public class CashierMachine {
     }
 
     private boolean hasPercentagePromotion() {
-        return order.getItems().stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getBarcode()));
+        return order.getItems().stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getProductCode()));
     }
 
     private boolean hasBuyXGetYFreePromotion() {
-        return order.getItems().stream().anyMatch(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getBarcode()));
+        return order.getItems().stream().anyMatch(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode()));
     }
 
     private boolean hasPercentagePromotion(Item item) {
-        return getPercentagePromotionBarcodes().contains(item.getBarcode());
+        return getPercentagePromotionBarcodes().contains(item.getProductCode());
     }
 
     public void reset() {

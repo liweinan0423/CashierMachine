@@ -43,7 +43,7 @@ public class Item {
         return price;
     }
 
-    public String getBarcode() {
+    public String getProductCode() {
         return barcode;
     }
 

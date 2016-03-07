@@ -9,6 +9,7 @@ public class Item {
     private int quantity;
     private double totalPayable;
     private Object saving;
+    private Object freeQuantity;
 
     public Item(String barcode, String name, double price, String unit) {
         this.barcode = barcode;
@@ -60,5 +61,14 @@ public class Item {
 
     public double getSaving() {
         return subTotal - totalPayable;
+    }
+
+    public void applyBuyXGetYFreePromotion(int x, int y) {
+        setQuantity(quantity + quantity / x * y);
+        subTotal = quantity * price;
+    }
+
+    public int getFreeQuantity() {
+        return (int) (getSaving() / price);
     }
 }

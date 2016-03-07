@@ -20,6 +20,9 @@ public class CashierMachine {
     private double percentage;
     private List<String> percentagePromotionBarcodes = new ArrayList<>();
     private double totalSaving;
+    private List<String> buyXGetYFreePromotionBarcodes = new ArrayList<>();
+    private int x;
+    private int y;
 
     public CashierMachine(String storeName, Map<String, Item> itemsStore) {
         this.storeName = storeName;
@@ -64,6 +67,9 @@ public class CashierMachine {
         if (items.stream().anyMatch(item -> percentagePromotionBarcodes.contains(item.getBarcode()))) {
             items.stream().filter(item -> percentagePromotionBarcodes.contains(item.getBarcode())).forEach(item -> item.applyPercentagePromotion(percentage));
         }
+        if (items.stream().anyMatch(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode()))) {
+            items.stream().filter(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode())).forEach(item -> item.applyBuyXGetYFreePromotion(x, y));
+        }
         totalPrice = items.stream().mapToDouble(Item::getTotalPayable).sum();
         totalSaving = items.stream().mapToDouble(Item::getSaving).sum();
     }
@@ -72,9 +78,24 @@ public class CashierMachine {
         printHeader();
         printItems();
         printDelimiter();
+        printPromotionSummary();
         printSummary();
         printFooter();
         return receiptBuilder.toString();
+    }
+
+    private void printPromotionSummary() {
+        if (hasBuyXGetYFreePromotion()) {
+            receiptBuilder.append("买二赠一商品:\n");
+            items.stream().filter(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode())).forEach(item -> {
+                receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit()));
+            });
+            printDelimiter();
+        }
+    }
+
+    private boolean hasBuyXGetYFreePromotion() {
+        return items.stream().anyMatch(item -> buyXGetYFreePromotionBarcodes.contains(item.getBarcode()));
     }
 
     private void printDelimiter() {
@@ -87,7 +108,7 @@ public class CashierMachine {
 
     private void printSummary() {
         receiptBuilder.append(String.format("总计: %.2f(元)\n", totalPrice));
-        if (hasPercentagePromotion()) {
+        if (hasPercentagePromotion() || hasBuyXGetYFreePromotion()) {
             receiptBuilder.append(String.format("节省: %.2f(元)\n", totalSaving));
         }
     }
@@ -136,5 +157,11 @@ public class CashierMachine {
     public void setUpPercentagePromotion(double percentage, String... barcodes) {
         this.percentage = percentage;
         this.percentagePromotionBarcodes = Arrays.asList(barcodes);
+    }
+
+    public void setUpBuyXGetYFreePromotion(int x, int y, String... barcodes) {
+        this.x = x;
+        this.y = y;
+        this.buyXGetYFreePromotionBarcodes = Arrays.asList(barcodes);
     }
 }

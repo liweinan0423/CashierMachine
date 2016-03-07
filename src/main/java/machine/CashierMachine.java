@@ -29,9 +29,13 @@ public class CashierMachine {
     }
 
     public void scan(String input) {
-        List<String> barcodes = parse(input);
-        barcodes.forEach(barcodeString ->
-                order.addItem(new Barcode(barcodeString), createItem(new Barcode(barcodeString))));
+        parse(input).forEach(this::addItem);
+    }
+
+    private void addItem(String barcodeString) {
+        Barcode barcode = new Barcode(barcodeString);
+        Product product = catalog.get(barcode.getProductCode());
+        order.addItem(product, barcode.getQuantity());
     }
 
     private List<String> parse(String input) {

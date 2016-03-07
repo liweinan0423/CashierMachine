@@ -11,6 +11,11 @@ public class Item {
         setQuantity(1);
     }
 
+    public Item(Product product, int quantity) {
+        this(product);
+        setQuantity(quantity);
+    }
+
     public void calculate() {
         this.totalPayable = this.subTotal = getPrice() * quantity;
     }
@@ -58,5 +63,13 @@ public class Item {
 
     public int getFreeQuantity() {
         return (int) (getSaving() / getPrice());
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    void increaseBy(int quantity) {
+        setQuantity(getQuantity() + quantity);
     }
 }

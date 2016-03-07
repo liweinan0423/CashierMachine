@@ -29,24 +29,17 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public void addItem(Barcode barcode, Item item) {
-        if (hasItemWithSameProduct(barcode)) {
-            increaseQuantity(barcode);
+    public void addItem(Product product, int quantity) {
+        Optional<Item> optional = findItemWith(product);
+        if (optional.isPresent()) {
+            optional.get().increaseBy(quantity);
         } else {
-            getItems().add(item);
+            getItems().add(new Item(product, quantity));
         }
     }
 
-    private boolean hasItemWithSameProduct(Barcode barcode) {
-        return getItems().stream().anyMatch(i -> i.getProductCode().equals(barcode.getProductCode()));
+    private Optional<Item> findItemWith(Product product) {
+        return getItems().stream().filter(item -> item.getProduct().equals(product)).findFirst();
     }
 
-    private void increaseQuantity(Barcode barcode) {
-        Optional<Item> first = getItems().stream().filter(i -> i.getProductCode().equals(barcode.getProductCode())).findFirst();
-        first.get().setQuantity(first.get().getQuantity() + barcode.getQuantity());
-    }
 }

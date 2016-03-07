@@ -26,19 +26,23 @@ public class CashierMachine {
 
     public void scan(String input) {
         List<String> barcodes = GSON.<List<String>>fromJson(input, List.class);
-        barcodes.forEach(barcode -> {
+        barcodes.forEach(barcodeString -> {
+            Barcode barcode = new Barcode(barcodeString);
             Item item = createItem(barcode);
-            if (order.getItems().stream().anyMatch(i -> i.getProductCode().equals(barcode))) {
-                Optional<Item> first = order.getItems().stream().filter(i -> i.getProductCode().equals(barcode)).findFirst();
-                first.get().setQuantity(first.get().getQuantity() + 1);
-            } else {
-                order.getItems().add(item);
-            }
+            addItem(barcode, item);
         });
     }
 
-    private Item createItem(String barcodeString) {
-        Barcode barcode = new Barcode(barcodeString);
+    private void addItem(Barcode barcode, Item item) {
+        if (order.getItems().stream().anyMatch(i -> i.getProductCode().equals(barcode.getProductCode()))) {
+            Optional<Item> first = order.getItems().stream().filter(i -> i.getProductCode().equals(barcode.getProductCode())).findFirst();
+            first.get().setQuantity(first.get().getQuantity() + barcode.getQuantity());
+        } else {
+            order.getItems().add(item);
+        }
+    }
+
+    private Item createItem(Barcode barcode) {
         String productCode = barcode.getProductCode();
         int quantity = barcode.getQuantity();
 

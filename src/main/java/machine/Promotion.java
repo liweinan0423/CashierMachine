@@ -20,10 +20,6 @@ public abstract class Promotion {
 
     public abstract void apply(Item item);
 
-    boolean supports(Order order) {
-        return order.getItems().stream().anyMatch(this::supports);
-    }
-
     public abstract boolean shouldPrintSavingForItem(Item item);
 
     public abstract boolean shouldPrintSavingInSummary(Order order);

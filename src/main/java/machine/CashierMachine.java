@@ -22,7 +22,7 @@ public class CashierMachine {
     }
 
     public void start() {
-        setOrder(new Order());
+        this.order = new Order();
         receiptBuilder = new StringBuilder();
     }
 
@@ -33,7 +33,7 @@ public class CashierMachine {
     private void addItem(String barcodeString) {
         Barcode barcode = new Barcode(barcodeString);
         Product product = catalog.get(barcode.getProductCode());
-        getOrder().addItem(product, barcode.getQuantity());
+        order.addItem(product, barcode.getQuantity());
     }
 
     private List<String> parse(String input) {
@@ -42,9 +42,9 @@ public class CashierMachine {
 
     public void calculate() {
         order.calculate();
-        promotionEngine.apply(getOrder());
-        this.getOrder().setTotalPrice(getOrder().getItems().stream().mapToDouble(Item::getTotalPayable).sum());
-        this.getOrder().setTotalSaving(getOrder().getItems().stream().mapToDouble(Item::getSaving).sum());
+        promotionEngine.apply(order);
+        order.setTotalPrice(order.getItems().stream().mapToDouble(Item::getTotalPayable).sum());
+        order.setTotalSaving(order.getItems().stream().mapToDouble(Item::getSaving).sum());
     }
 
     public String print() {
@@ -62,7 +62,7 @@ public class CashierMachine {
     }
 
     private void printItems() {
-        getOrder().getItems().forEach(this::print);
+        order.getItems().forEach(this::print);
     }
 
     private void print(Item item) {
@@ -87,8 +87,8 @@ public class CashierMachine {
     }
 
     private void printPromotionSummary() {
-        if (promotionEngine.shouldPrintPromotionSummary(getOrder())) {
-            promotionEngine.buildPromotionSummary(receiptBuilder, getOrder());
+        if (promotionEngine.shouldPrintPromotionSummary(order)) {
+            promotionEngine.buildPromotionSummary(receiptBuilder, order);
             printDelimiter();
         }
     }
@@ -102,22 +102,13 @@ public class CashierMachine {
     }
 
     private void printSummary() {
-        receiptBuilder.append(String.format("总计: %.2f(元)\n", getOrder().getTotalPrice()));
-        if (promotionEngine.shouldPrintSavingInSummary(getOrder())) {
-            receiptBuilder.append(String.format("节省: %.2f(元)\n", getOrder().getTotalSaving()));
+        receiptBuilder.append(String.format("总计: %.2f(元)\n", order.getTotalPrice()));
+        if (promotionEngine.shouldPrintSavingInSummary(order)) {
+            receiptBuilder.append(String.format("节省: %.2f(元)\n", order.getTotalSaving()));
         }
     }
 
     public void reset() {
 
     }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
 }

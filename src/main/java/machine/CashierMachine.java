@@ -41,7 +41,7 @@ public class CashierMachine {
     }
 
     public void calculate() {
-        getOrder().getItems().forEach(Item::calculate);
+        order.calculate();
         promotionEngine.apply(getOrder());
         this.getOrder().setTotalPrice(getOrder().getItems().stream().mapToDouble(Item::getTotalPayable).sum());
         this.getOrder().setTotalSaving(getOrder().getItems().stream().mapToDouble(Item::getSaving).sum());

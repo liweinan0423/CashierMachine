@@ -42,4 +42,7 @@ public class Order {
         return getItems().stream().filter(item -> item.getProduct().equals(product)).findFirst();
     }
 
+    public void calculate() {
+        getItems().forEach(Item::calculate);
+    }
 }

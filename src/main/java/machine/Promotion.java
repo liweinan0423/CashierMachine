@@ -4,18 +4,18 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class Promotion {
-    protected final List<String> barcodes;
+    protected final List<String> productCodes;
 
-    public Promotion(String[] barcodes) {
-        this.barcodes = Arrays.asList(barcodes);
+    public Promotion(String... productCodes) {
+        this.productCodes = Arrays.asList(productCodes);
     }
 
-    public List<String> getBarcodes() {
-        return barcodes;
+    public List<String> getProductCodes() {
+        return productCodes;
     }
 
     boolean supports(Item item) {
-        return getBarcodes().contains(item.getProductCode());
+        return getProductCodes().contains(item.getProductCode());
     }
 
     public abstract void apply(Item item);

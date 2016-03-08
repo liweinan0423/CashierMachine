@@ -4,8 +4,8 @@ public class BuyXGetYFreePromotion extends Promotion {
     private final int x;
     private final int y;
 
-    public BuyXGetYFreePromotion(int x, int y, String... barcodes) {
-        super(barcodes);
+    public BuyXGetYFreePromotion(int x, int y, String... productCodes) {
+        super(productCodes);
         this.x = x;
         this.y = y;
     }

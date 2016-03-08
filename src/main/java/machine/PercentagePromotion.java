@@ -33,6 +33,6 @@ public class PercentagePromotion extends Promotion {
     }
 
     boolean supports(Item item) {
-        return getBarcodes().contains(item.getProductCode());
+        return getProductCodes().contains(item.getProductCode());
     }
 }

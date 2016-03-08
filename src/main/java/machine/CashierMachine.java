@@ -15,6 +15,7 @@ public class CashierMachine {
     private Map<String, Product> catalog;
 
     private Order order;
+    private ReceiptPrinter printer;
 
     public CashierMachine(String storeName, Map<String, Product> catalog) {
         this.storeName = storeName;
@@ -49,64 +50,9 @@ public class CashierMachine {
     }
 
     public String print() {
-        printHeader();
-        printItems();
-        printDelimiter();
-        printPromotionSummary();
-        printSummary();
-        printFooter();
-        return receiptBuilder.toString();
-    }
-
-    private void printHeader() {
-        receiptBuilder.append("***<").append(storeName).append(">购物清单***\n");
-    }
-
-    private void printItems() {
-        order.getItems().forEach(this::print);
-    }
-
-    private void print(Item item) {
-        if (promotionEngine.shouldPrintSavingOnItem(item)) {
-            receiptBuilder.append(String.format("名称: %s, 数量: %d%s, 单价: %.2f(元), 小计: %.2f(元), 节省%.2f(元)\n",
-                    item.getName(),
-                    item.getQuantity(),
-                    item.getUnit(),
-                    item.getPrice(),
-                    item.getTotalPayable(),
-                    item.getSaving()
-            ));
-        } else {
-            receiptBuilder.append(String.format("名称: %s, 数量: %d%s, 单价: %.2f(元), 小计: %.2f(元)\n",
-                    item.getName(),
-                    item.getQuantity(),
-                    item.getUnit(),
-                    item.getPrice(),
-                    item.getTotalPayable()
-            ));
-        }
-    }
-
-    private void printPromotionSummary() {
-        if (promotionEngine.shouldPrintPromotionSummary(order)) {
-            promotionEngine.buildPromotionSummary(receiptBuilder, order);
-            printDelimiter();
-        }
-    }
-
-    private void printDelimiter() {
-        receiptBuilder.append("----------\n");
-    }
-
-    private void printFooter() {
-        receiptBuilder.append("**********\n");
-    }
-
-    private void printSummary() {
-        receiptBuilder.append(String.format("总计: %.2f(元)\n", order.getTotalPrice()));
-        if (promotionEngine.shouldPrintSavingInSummary(order)) {
-            receiptBuilder.append(String.format("节省: %.2f(元)\n", order.getTotalSaving()));
-        }
+        printer = new ReceiptPrinter(storeName, promotionEngine, order);
+        printer.printReceipt();
+        return printer.build();
     }
 
     public void addPromotion(Promotion promotion) {

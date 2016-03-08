@@ -2,10 +2,9 @@ package machine;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class PromotionEngine {
-    List<Promotion> promotions = new ArrayList<>();
+    private List<Promotion> promotions = new ArrayList<>();
 
     public PromotionEngine() {
     }
@@ -40,11 +39,6 @@ public class PromotionEngine {
 
     boolean shouldPrintSavingOnItem(Item item) {
         return promotions.stream().anyMatch(p -> p.shouldPrintSavingForItem(item));
-    }
-
-    public Promotion getBuyXGetYFreePromotion() {
-        Optional<Promotion> promotion = getPromotions().stream().filter(p -> p instanceof BuyXGetYFreePromotion).findFirst();
-        return promotion.isPresent() ? promotion.get() : new NOPPromotion();
     }
 
     void buildPromotionSummary(StringBuilder receiptBuilder, Order order) {

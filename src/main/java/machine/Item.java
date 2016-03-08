@@ -17,11 +17,12 @@ public class Item {
     }
 
     public void calculate() {
-        this.totalPayable = this.subTotal = getPrice() * quantity;
+        this.setSubTotal(getPrice() * getQuantity());
+        this.setTotalPayable(getPrice() * getQuantity());
     }
 
     public String getName() {
-        return product.getName();
+        return getProduct().getName();
     }
 
     public int getQuantity() {
@@ -29,36 +30,28 @@ public class Item {
     }
 
     public String getUnit() {
-        return product.getUnit();
+        return getProduct().getUnit();
     }
 
     public double getPrice() {
-        return product.getPrice();
+        return getProduct().getPrice();
     }
 
     public String getProductCode() {
-        return product.getProductCode();
+        return getProduct().getProductCode();
     }
 
     public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 
-    public void applyPercentagePromotion(double percentage) {
-        totalPayable = subTotal * percentage;
-    }
 
     public double getTotalPayable() {
         return totalPayable;
     }
 
     public double getSaving() {
-        return subTotal - totalPayable;
-    }
-
-    public void applyBuyXGetYFreePromotion(int x, int y) {
-        setQuantity(quantity + quantity / x * y);
-        subTotal = quantity * getPrice();
+        return getSubTotal() - getTotalPayable();
     }
 
     public int getFreeQuantity() {
@@ -71,5 +64,17 @@ public class Item {
 
     void increaseBy(int quantity) {
         setQuantity(getQuantity() + quantity);
+    }
+
+    public double getSubTotal() {
+        return subTotal;
+    }
+
+    public void setSubTotal(double subTotal) {
+        this.subTotal = subTotal;
+    }
+
+    public void setTotalPayable(double totalPayable) {
+        this.totalPayable = totalPayable;
     }
 }

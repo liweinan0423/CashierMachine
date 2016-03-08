@@ -11,7 +11,7 @@ public class CashierMachine {
     final PromotionEngine promotionEngine = new PromotionEngine();
 
     private String storeName;
-    private StringBuilder receiptBuilder;
+    public StringBuilder receiptBuilder;
     private Map<String, Product> catalog;
 
     private Order order;
@@ -88,8 +88,7 @@ public class CashierMachine {
 
     private void printPromotionSummary() {
         if (promotionEngine.shouldPrintPromotionSummary(getOrder())) {
-            receiptBuilder.append("买二赠一商品:\n");
-            getOrder().getItems().stream().filter(promotionEngine.getBuyXGetYFreePromotion()::supports).forEach(item -> receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit())));
+            promotionEngine.buildPromotionSummary(receiptBuilder, getOrder());
             printDelimiter();
         }
     }

@@ -8,7 +8,7 @@ import java.util.Map;
 public class CashierMachine {
 
     private static Gson GSON = new Gson();
-    final PromotionEngine promotionEngine = new PromotionEngine();
+    private PromotionEngine promotionEngine;
 
     private String storeName;
     public StringBuilder receiptBuilder;
@@ -19,6 +19,7 @@ public class CashierMachine {
     public CashierMachine(String storeName, Map<String, Product> catalog) {
         this.storeName = storeName;
         this.catalog = catalog;
+        this.promotionEngine = new PromotionEngine();
     }
 
     public void start() {
@@ -108,7 +109,7 @@ public class CashierMachine {
         }
     }
 
-    public void reset() {
-
+    public void addPromotion(Promotion promotion) {
+        promotionEngine.addPromotion(promotion);
     }
 }

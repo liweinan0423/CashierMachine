@@ -24,46 +24,4 @@ public class CompositePromotion extends Promotion {
             highPriority.apply(item);
         }
     }
-
-    @Override
-    public boolean shouldPrintSavingForItem(Item item) {
-        if (highPriority.supports(item)) {
-            return highPriority.shouldPrintSavingForItem(item);
-        } else if (lowPriority.supports(item)) {
-            return lowPriority.shouldPrintSavingForItem(item);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean shouldPrintSavingInSummary(Order order) {
-        if (order.getItems().stream().anyMatch(highPriority::supports)) {
-            return highPriority.shouldPrintSavingInSummary(order);
-        } else if (order.getItems().stream().anyMatch(lowPriority::supports)) {
-            return lowPriority.shouldPrintSavingInSummary(order);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public boolean shouldPrintPromotionSummary(Order order) {
-        if (order.getItems().stream().anyMatch(highPriority::supports)) {
-            return highPriority.shouldPrintPromotionSummary(order);
-        } else if (order.getItems().stream().anyMatch(lowPriority::supports)) {
-            return lowPriority.shouldPrintPromotionSummary(order);
-        } else {
-            return false;
-        }
-    }
-
-    @Override
-    public void buildPromotionSummary(StringBuilder receiptBuilder, Order order) {
-        if (order.getItems().stream().anyMatch(highPriority::supports)) {
-            highPriority.buildPromotionSummary(receiptBuilder, order);
-        } else if (order.getItems().stream().anyMatch(lowPriority::supports)) {
-            lowPriority.buildPromotionSummary(receiptBuilder, order);
-        }
-    }
 }

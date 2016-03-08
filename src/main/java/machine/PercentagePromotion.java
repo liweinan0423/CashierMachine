@@ -15,21 +15,7 @@ public class PercentagePromotion extends Promotion {
     @Override
     public void apply(Item item) {
         item.setTotalPayable(item.getSubTotal() * getPercentage());
-    }
-
-    @Override
-    public boolean shouldPrintSavingForItem(Item item) {
-        return true;
-    }
-
-    @Override
-    public boolean shouldPrintSavingInSummary(Order order) {
-        return true;
-    }
-
-    @Override
-    public boolean shouldPrintPromotionSummary(Order order) {
-        return false;
+        item.setPromotion(this);
     }
 
     boolean supports(Item item) {

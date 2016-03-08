@@ -50,7 +50,7 @@ public class CashierMachine {
     }
 
     public String print() {
-        printer = new ReceiptPrinter(storeName, promotionEngine, order);
+        printer = new ReceiptPrinter(storeName, order);
         printer.printReceipt();
         return printer.build();
     }

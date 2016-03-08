@@ -29,23 +29,4 @@ public class PromotionEngine {
         order.getItems().forEach(this::apply);
     }
 
-    boolean shouldPrintSavingInSummary(Order order) {
-        return promotions.stream().anyMatch(p -> p.shouldPrintSavingInSummary(order));
-    }
-
-    boolean shouldPrintPromotionSummary(Order order) {
-        return promotions.stream().anyMatch(p -> p.shouldPrintPromotionSummary(order));
-    }
-
-    boolean shouldPrintSavingOnItem(Item item) {
-        return promotions.stream().anyMatch(p -> p.shouldPrintSavingForItem(item));
-    }
-
-    void buildPromotionSummary(StringBuilder receiptBuilder, Order order) {
-        promotions.forEach(promotion -> {
-            if (promotion.shouldPrintPromotionSummary(order)) {
-                promotion.buildPromotionSummary(receiptBuilder, order);
-            }
-        });
-    }
 }

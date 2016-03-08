@@ -5,6 +5,7 @@ public class Item {
     private double subTotal;
     private int quantity;
     private double totalPayable;
+    private Promotion promotion;
 
     public Item(Product product) {
         this.product = product;
@@ -76,5 +77,13 @@ public class Item {
 
     public void setTotalPayable(double totalPayable) {
         this.totalPayable = totalPayable;
+    }
+
+    public void setPromotion(Promotion promotion) {
+        this.promotion = promotion;
+    }
+
+    public Promotion getPromotion() {
+        return promotion;
     }
 }

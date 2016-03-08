@@ -42,26 +42,30 @@ public class CashierMachine {
         return GSON.<List<String>>fromJson(input, List.class);
     }
 
-    private Item createItem(Barcode barcode) {
-        String productCode = barcode.getProductCode();
-        int quantity = barcode.getQuantity();
-
-        Product product = catalog.get(productCode);
-        Item item = new Item(product);
-        item.setQuantity(quantity);
-        return item;
-    }
-
     public void calculate() {
         order.getItems().forEach(Item::calculate);
-        if (order.getItems().stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getProductCode()))) {
-            order.getItems().stream().filter(item -> getPercentagePromotionBarcodes().contains(item.getProductCode())).forEach(item -> item.applyPercentagePromotion(getPercentage()));
-        }
-        if (order.getItems().stream().anyMatch(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode()))) {
-            order.getItems().stream().filter(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode())).forEach(item -> item.applyBuyXGetYFreePromotion(getX(), getY()));
-        }
+        applyPromotions();
         this.order.setTotalPrice(order.getItems().stream().mapToDouble(Item::getTotalPayable).sum());
         this.order.setTotalSaving(order.getItems().stream().mapToDouble(Item::getSaving).sum());
+    }
+
+    private void applyPromotions() {
+        order.getItems().forEach(item -> {
+            if (eligibleForPercentagePromotion(item)) {
+                item.applyPercentagePromotion(getPercentage());
+            }
+            if (eligibleForBuyXGetYFreePromotion(item)) {
+                item.applyBuyXGetYFreePromotion(buyXGetYFreePromotion.getX(), buyXGetYFreePromotion.getY());
+            }
+        });
+    }
+
+    private boolean eligibleForBuyXGetYFreePromotion(Item item) {
+        return getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode());
+    }
+
+    private boolean eligibleForPercentagePromotion(Item item) {
+        return getPercentagePromotionBarcodes().contains(item.getProductCode());
     }
 
     public String print() {
@@ -106,9 +110,7 @@ public class CashierMachine {
     private void printPromotionSummary() {
         if (hasBuyXGetYFreePromotion()) {
             receiptBuilder.append("买二赠一商品:\n");
-            order.getItems().stream().filter(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode())).forEach(item -> {
-                receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit()));
-            });
+            order.getItems().stream().filter(this::eligibleForBuyXGetYFreePromotion).forEach(item -> receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit())));
             printDelimiter();
         }
     }
@@ -129,15 +131,15 @@ public class CashierMachine {
     }
 
     private boolean hasPercentagePromotion() {
-        return order.getItems().stream().anyMatch(item -> getPercentagePromotionBarcodes().contains(item.getProductCode()));
+        return order.getItems().stream().anyMatch(this::eligibleForPercentagePromotion);
     }
 
     private boolean hasBuyXGetYFreePromotion() {
-        return order.getItems().stream().anyMatch(item -> getBuyXGetYFreePromotionBarcodes().contains(item.getProductCode()));
+        return order.getItems().stream().anyMatch(this::eligibleForBuyXGetYFreePromotion);
     }
 
     private boolean hasPercentagePromotion(Item item) {
-        return getPercentagePromotionBarcodes().contains(item.getProductCode());
+        return eligibleForPercentagePromotion(item);
     }
 
     public void reset() {
@@ -167,18 +169,6 @@ public class CashierMachine {
 
     public void setUpBuyXGetYFreePromotion(int x, int y, String... barcodes) {
         buyXGetYFreePromotion = new BuyXGetYFreePromotion(x, y, barcodes);
-    }
-
-    public int getX() {
-        if (buyXGetYFreePromotion != null) {
-            return buyXGetYFreePromotion.getX();
-        } else {
-            return 0;
-        }
-    }
-
-    public int getY() {
-        return buyXGetYFreePromotion.getY();
     }
 
     public List<String> getBuyXGetYFreePromotionBarcodes() {

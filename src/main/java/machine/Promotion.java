@@ -5,6 +5,7 @@ import java.util.List;
 
 public abstract class Promotion {
     protected final List<String> productCodes;
+    protected int priority;
 
     public Promotion(String... productCodes) {
         this.productCodes = Arrays.asList(productCodes);
@@ -25,4 +26,8 @@ public abstract class Promotion {
     public abstract boolean shouldPrintSavingInSummary(Order order);
 
     public abstract boolean shouldPrintPromotionSummary(Order order);
+
+    public void buildPromotionSummary(StringBuilder receiptBuilder, Order order) {
+
+    }
 }

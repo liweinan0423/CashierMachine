@@ -126,4 +126,26 @@ public class MachineTests {
 
     }
 
+    @Test
+    public void buy_get_promotion_should_supersede_percentage_promotion() {
+        PercentagePromotion percentagePromotion = new PercentagePromotion(0.95, "ITEM001");
+        BuyXGetYFreePromotion buy2Get1FreePromotion = new BuyXGetYFreePromotion(2, 1, "ITEM001");
+        CompositePromotion compositePromotion = new CompositePromotion(buy2Get1FreePromotion, percentagePromotion);
+        machine.promotionEngine.addPromotion(compositePromotion);
+        machine.start();
+        machine.scan("[ITEM001, ITEM001]");
+        machine.calculate();
+        String receipt = machine.print();
+        String expected = "***<没钱赚商店>购物清单***\n"
+                + "名称: 可口可乐, 数量: 3瓶, 单价: 3.00(元), 小计: 6.00(元)\n"
+                + "----------\n"
+                + "买二赠一商品:\n"
+                + "名称: 可口可乐, 数量: 1瓶\n"
+                + "----------\n"
+                + "总计: 6.00(元)\n"
+                + "节省: 3.00(元)\n"
+                + "**********\n";
+        assertEquals(expected, receipt);
+    }
+
 }

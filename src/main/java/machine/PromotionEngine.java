@@ -48,7 +48,10 @@ public class PromotionEngine {
     }
 
     void buildPromotionSummary(StringBuilder receiptBuilder, Order order) {
-        receiptBuilder.append("买二赠一商品:\n");
-        order.getItems().stream().filter(getBuyXGetYFreePromotion()::supports).forEach(item -> receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit())));
+        promotions.forEach(promotion -> {
+            if (promotion.shouldPrintPromotionSummary(order)) {
+                promotion.buildPromotionSummary(receiptBuilder, order);
+            }
+        });
     }
 }

@@ -25,6 +25,11 @@ public class BuyXGetYFreePromotion extends Promotion {
     }
 
     @Override
+    public boolean shouldPrintSavingForItem(Item item) {
+        return false;
+    }
+
+    @Override
     public boolean shouldPrintSavingInSummary(Order order) {
         return true;
     }

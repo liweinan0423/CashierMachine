@@ -24,13 +24,7 @@ public abstract class Promotion {
         return order.getItems().stream().anyMatch(this::supports);
     }
 
-    boolean hasPercentagePromotion(Item item) {
-        return supports(item);
-    }
-
-    boolean shouldPrintSavingForItem(Item item) {
-        return hasPercentagePromotion(item);
-    }
+    public abstract boolean shouldPrintSavingForItem(Item item);
 
     public abstract boolean shouldPrintSavingInSummary(Order order);
 

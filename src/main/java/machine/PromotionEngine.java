@@ -39,12 +39,7 @@ public class PromotionEngine {
     }
 
     boolean shouldPrintSavingOnItem(Item item) {
-        return this.getPercentagePromotion().shouldPrintSavingForItem(item);
-    }
-
-    public Promotion getPercentagePromotion() {
-        Optional<Promotion> promotion = getPromotions().stream().filter(p -> p instanceof PercentagePromotion).findFirst();
-        return promotion.isPresent() ? promotion.get() : new NOPPromotion();
+        return promotions.stream().anyMatch(p -> p.shouldPrintSavingForItem(item));
     }
 
     public Promotion getBuyXGetYFreePromotion() {

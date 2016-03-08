@@ -24,4 +24,14 @@ public class BuyXGetYFreePromotion extends Promotion {
         item.setSubTotal(item.getQuantity() * item.getPrice());
     }
 
+    @Override
+    public boolean shouldPrintSavingInSummary(Order order) {
+        return true;
+    }
+
+    @Override
+    public boolean shouldPrintPromotionSummary(Order order) {
+        return true;
+    }
+
 }

@@ -2,19 +2,17 @@ package machine;
 
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 public class CashierMachine {
 
     private static Gson GSON = new Gson();
+    final PromotionEngine promotionEngine = new PromotionEngine();
 
     private String storeName;
     private StringBuilder receiptBuilder;
     private Map<String, Product> catalog;
-    List<Promotion> promotions = new ArrayList<>();
 
     private Order order;
 
@@ -44,19 +42,9 @@ public class CashierMachine {
 
     public void calculate() {
         getOrder().getItems().forEach(Item::calculate);
-        applyPromotions();
+        promotionEngine.apply(getOrder());
         this.getOrder().setTotalPrice(getOrder().getItems().stream().mapToDouble(Item::getTotalPayable).sum());
         this.getOrder().setTotalSaving(getOrder().getItems().stream().mapToDouble(Item::getSaving).sum());
-    }
-
-    private void applyPromotions() {
-        getOrder().getItems().forEach(item -> {
-            promotions.forEach(promotion -> {
-                if (promotion.supports(item)) {
-                    promotion.apply(item);
-                }
-            });
-        });
     }
 
     public String print() {
@@ -78,7 +66,7 @@ public class CashierMachine {
     }
 
     private void print(Item item) {
-        if (getPercentagePromotion().shouldPrintSavingInForItem(item)) {
+        if (promotionEngine.shouldPrintSavingOnItem(item)) {
             receiptBuilder.append(String.format("名称: %s, 数量: %d%s, 单价: %.2f(元), 小计: %.2f(元), 节省%.2f(元)\n",
                     item.getName(),
                     item.getQuantity(),
@@ -99,9 +87,9 @@ public class CashierMachine {
     }
 
     private void printPromotionSummary() {
-        if (getBuyXGetYFreePromotion().supports(getOrder())) {
+        if (promotionEngine.shouldPrintPromotionSummary(getOrder())) {
             receiptBuilder.append("买二赠一商品:\n");
-            getOrder().getItems().stream().filter(getBuyXGetYFreePromotion()::supports).forEach(item -> receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit())));
+            getOrder().getItems().stream().filter(promotionEngine.getBuyXGetYFreePromotion()::supports).forEach(item -> receiptBuilder.append(String.format("名称: %s, 数量: %d%s\n", item.getName(), item.getFreeQuantity(), item.getUnit())));
             printDelimiter();
         }
     }
@@ -116,21 +104,13 @@ public class CashierMachine {
 
     private void printSummary() {
         receiptBuilder.append(String.format("总计: %.2f(元)\n", getOrder().getTotalPrice()));
-        if (orderHasAnySaving()) {
+        if (promotionEngine.shouldPrintSavingInSummary(getOrder())) {
             receiptBuilder.append(String.format("节省: %.2f(元)\n", getOrder().getTotalSaving()));
         }
     }
 
-    private boolean orderHasAnySaving() {
-        return getPercentagePromotion().supports(getOrder()) || getBuyXGetYFreePromotion().supports(getOrder());
-    }
-
     public void reset() {
 
-    }
-
-    public boolean addPromotion(Promotion percentagePromotion) {
-        return promotions.add(percentagePromotion);
     }
 
     public Order getOrder() {
@@ -141,13 +121,4 @@ public class CashierMachine {
         this.order = order;
     }
 
-    public Promotion getPercentagePromotion() {
-        Optional<Promotion> promotion = promotions.stream().filter(p -> p instanceof PercentagePromotion).findFirst();
-        return promotion.isPresent() ? promotion.get() : new NOPPromotion();
-    }
-
-    public Promotion getBuyXGetYFreePromotion() {
-        Optional<Promotion> promotion = promotions.stream().filter(p -> p instanceof BuyXGetYFreePromotion).findFirst();
-        return promotion.isPresent() ? promotion.get() : new NOPPromotion();
-    }
 }

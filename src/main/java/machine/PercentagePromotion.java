@@ -17,6 +17,16 @@ public class PercentagePromotion extends Promotion {
         item.setTotalPayable(item.getSubTotal() * getPercentage());
     }
 
+    @Override
+    public boolean shouldPrintSavingInSummary(Order order) {
+        return true;
+    }
+
+    @Override
+    public boolean shouldPrintPromotionSummary(Order order) {
+        return false;
+    }
+
     boolean supports(Item item) {
         return getBarcodes().contains(item.getProductCode());
     }

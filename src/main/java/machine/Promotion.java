@@ -28,7 +28,11 @@ public abstract class Promotion {
         return supports(item);
     }
 
-    boolean shouldPrintSavingInForItem(Item item) {
+    boolean shouldPrintSavingForItem(Item item) {
         return hasPercentagePromotion(item);
     }
+
+    public abstract boolean shouldPrintSavingInSummary(Order order);
+
+    public abstract boolean shouldPrintPromotionSummary(Order order);
 }

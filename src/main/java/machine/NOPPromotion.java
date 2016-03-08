@@ -8,4 +8,14 @@ public class NOPPromotion extends Promotion {
     @Override
     public void apply(Item item) {
     }
+
+    @Override
+    public boolean shouldPrintSavingInSummary(Order order) {
+        return false;
+    }
+
+    @Override
+    public boolean shouldPrintPromotionSummary(Order order) {
+        return false;
+    }
 }

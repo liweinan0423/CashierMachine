@@ -92,7 +92,7 @@ public class MachineTests {
 
     @Test
     public void item_with_percentage_promotion() {
-        machine.addPromotion(new PercentagePromotion(0.95, "ITEM001"));
+        machine.promotionEngine.addPromotion(new PercentagePromotion(0.95, "ITEM001"));
         machine.start();
         machine.scan("[ITEM001]");
         machine.calculate();
@@ -109,7 +109,7 @@ public class MachineTests {
 
     @Test
     public void item_with_buy_x_get_y_free_promotion() {
-        machine.addPromotion(new BuyXGetYFreePromotion(2, 1, "ITEM001"));
+        machine.promotionEngine.addPromotion(new BuyXGetYFreePromotion(2, 1, "ITEM001"));
         machine.start();
         machine.scan("[ITEM001,ITEM001,ITEM001]");
         machine.calculate();

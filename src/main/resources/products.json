@@ -1,0 +1,20 @@
+[
+  {
+    "productCode": "ITEM001",
+    "name": "可口可乐",
+    "unit": "瓶",
+    "price": 3.00
+  },
+  {
+    "productCode": "ITEM002",
+    "name": "羽毛球",
+    "unit": "个",
+    "price": 2.00
+  },
+  {
+    "productCode": "ITEM003",
+    "name": "苹果",
+    "unit": "斤",
+    "price": 3.00
+  }
+]

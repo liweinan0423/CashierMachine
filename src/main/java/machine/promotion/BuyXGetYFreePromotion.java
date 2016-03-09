@@ -18,6 +18,11 @@ public class BuyXGetYFreePromotion extends Promotion {
         return x;
     }
 
+    @Override
+    public boolean supports(Item item) {
+        return super.supports(item) && item.getQuantity() >= x;
+    }
+
     public int getY() {
         return y;
     }

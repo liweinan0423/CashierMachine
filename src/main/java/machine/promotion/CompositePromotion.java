@@ -29,7 +29,7 @@ public class CompositePromotion extends Promotion {
         if (highPriority.supports(item)) {
             highPriority.apply(item);
         } else if (lowPriority.supports(item)) {
-            highPriority.apply(item);
+            lowPriority.apply(item);
         }
     }
 }

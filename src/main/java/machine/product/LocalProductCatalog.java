@@ -37,5 +37,6 @@ public class LocalProductCatalog implements ProductCatalog {
         return products.get(code);
     }
 
-    private static class ProductList extends ArrayList<Product> {}
+    private static class ProductList extends ArrayList<Product> {
+    }
 }

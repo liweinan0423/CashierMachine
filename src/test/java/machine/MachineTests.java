@@ -1,5 +1,6 @@
 package machine;
 
+import machine.machine.CashierMachine;
 import machine.product.LocalProductCatalog;
 import machine.promotion.PromotionEngine;
 import org.junit.After;

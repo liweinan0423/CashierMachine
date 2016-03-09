@@ -23,6 +23,7 @@ public class ReceiptPrinterBuilder {
         printableList.add(new PrintLn(header));
         return this;
     }
+
     public ReceiptPrinterBuilder printItems() {
         printableList.add(new SequentialPrintable(
                 order.getItems().stream().map(this::itemPrinter).collect(Collectors.toList()))
@@ -38,10 +39,12 @@ public class ReceiptPrinterBuilder {
         printableList.add(new PrintLn("----------"));
         return this;
     }
+
     public ReceiptPrinterBuilder printPromotionSummary() {
         printableList.add(new PromotionSummaryPrinter(order));
         return this;
     }
+
     public ReceiptPrinterBuilder printOrderSummary() {
         printableList.add(new OrderSummaryPrinter(order));
         return this;

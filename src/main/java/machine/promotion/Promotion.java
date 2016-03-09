@@ -24,5 +24,5 @@ public abstract class Promotion {
         return getProductCodes().contains(item.getProductCode());
     }
 
-    public abstract void apply(Item item) ;
+    public abstract void apply(Item item);
 }

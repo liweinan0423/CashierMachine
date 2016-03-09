@@ -1,13 +1,12 @@
-package machine;
+package machine.machine;
 
 import com.google.gson.Gson;
 import machine.order.Barcode;
 import machine.order.Order;
-import machine.product.Product;
-import machine.product.ProductCatalog;
 import machine.printing.Printable;
 import machine.printing.ReceiptPrinterBuilder;
-import machine.promotion.Promotion;
+import machine.product.Product;
+import machine.product.ProductCatalog;
 import machine.promotion.PromotionEngine;
 
 import java.io.ByteArrayOutputStream;

@@ -12,6 +12,10 @@ public abstract class Promotion {
         this.productCodes = Arrays.asList(productCodes);
     }
 
+    public Promotion(List<String> productCodes) {
+        this.productCodes = productCodes;
+    }
+
     public List<String> getProductCodes() {
         return productCodes;
     }

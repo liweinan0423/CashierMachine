@@ -1,8 +1,8 @@
 package machine;
 
-import machine.promotion.BuyXGetYFreePromotion;
-import machine.promotion.CompositePromotion;
-import machine.promotion.PercentagePromotion;
+import machine.product.LocalProductCatalog;
+import machine.promotion.PromotionEngine;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,10 +11,18 @@ import static org.junit.Assert.assertEquals;
 public class MachineTests {
 
     private CashierMachine machine;
+    private PromotionEngine promotionEngine;
 
     @Before
     public void setUp() {
-        machine = new CashierMachine(new LocalProductCatalog("/fixture.json"));
+        promotionEngine = new PromotionEngine();
+        machine = new CashierMachine(new LocalProductCatalog("/fixtures/products.json"), promotionEngine);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        promotionEngine = null;
+        machine = null;
     }
 
     @Test
@@ -93,7 +101,7 @@ public class MachineTests {
 
     @Test
     public void item_with_percentage_promotion() {
-        machine.addPromotion(new PercentagePromotion(0.95, "ITEM001"));
+        promotionEngine.loadPromotion("/fixtures/promotions_percentage.json");
         machine.start();
         machine.scan("[ITEM001]");
         machine.calculate();
@@ -110,7 +118,7 @@ public class MachineTests {
 
     @Test
     public void item_with_buy_x_get_y_free_promotion() {
-        machine.addPromotion(new BuyXGetYFreePromotion(2, 1, "ITEM001"));
+        promotionEngine.loadPromotion("/fixtures/promotions_buy_get.json");
         machine.start();
         machine.scan("[ITEM001,ITEM001,ITEM001]");
         machine.calculate();
@@ -130,10 +138,7 @@ public class MachineTests {
 
     @Test
     public void buy_get_promotion_should_supersede_percentage_promotion() {
-        PercentagePromotion percentagePromotion = new PercentagePromotion(0.95, "ITEM001");
-        BuyXGetYFreePromotion buy2Get1FreePromotion = new BuyXGetYFreePromotion(2, 1, "ITEM001");
-        CompositePromotion compositePromotion = new CompositePromotion(buy2Get1FreePromotion, percentagePromotion);
-        machine.addPromotion(compositePromotion);
+        promotionEngine.loadPromotion("/fixtures/promotions_both.json");
         machine.start();
         machine.scan("[ITEM001, ITEM001]");
         machine.calculate();

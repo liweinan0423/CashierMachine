@@ -3,8 +3,8 @@ package machine;
 import com.google.gson.Gson;
 import machine.order.Barcode;
 import machine.order.Order;
-import machine.order.Product;
-import machine.order.ProductCatalog;
+import machine.product.Product;
+import machine.product.ProductCatalog;
 import machine.printing.Printable;
 import machine.printing.ReceiptPrinterBuilder;
 import machine.promotion.Promotion;
@@ -24,9 +24,9 @@ public class CashierMachine {
 
     private Order order;
 
-    public CashierMachine(ProductCatalog catalog) {
+    public CashierMachine(ProductCatalog catalog, PromotionEngine promotionEngine) {
         this.catalog = catalog;
-        this.promotionEngine = new PromotionEngine();
+        this.promotionEngine = promotionEngine;
     }
 
     public void start() {

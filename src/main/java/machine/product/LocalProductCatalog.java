@@ -1,8 +1,6 @@
-package machine;
+package machine.product;
 
 import com.google.gson.Gson;
-import machine.order.Product;
-import machine.order.ProductCatalog;
 
 import java.io.IOException;
 import java.io.InputStream;

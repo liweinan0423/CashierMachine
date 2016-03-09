@@ -1,4 +1,4 @@
-package machine.order;
+package machine.product;
 
 public class Product {
     private final String productCode;

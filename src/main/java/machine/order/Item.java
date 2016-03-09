@@ -1,5 +1,6 @@
 package machine.order;
 
+import machine.product.Product;
 import machine.promotion.Promotion;
 
 public class Item {

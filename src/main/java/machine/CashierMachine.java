@@ -3,16 +3,16 @@ package machine;
 import com.google.gson.Gson;
 import machine.order.Barcode;
 import machine.order.Order;
+import machine.order.Product;
+import machine.order.ProductCatalog;
 import machine.printing.Printable;
 import machine.printing.ReceiptPrinterBuilder;
-import machine.order.Product;
 import machine.promotion.Promotion;
 import machine.promotion.PromotionEngine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.util.List;
-import java.util.Map;
 
 public class CashierMachine {
 
@@ -20,11 +20,11 @@ public class CashierMachine {
     private PromotionEngine promotionEngine;
 
     public StringBuilder receiptBuilder;
-    private Map<String, Product> catalog;
+    private ProductCatalog catalog;
 
     private Order order;
 
-    public CashierMachine(Map<String, Product> catalog) {
+    public CashierMachine(ProductCatalog catalog) {
         this.catalog = catalog;
         this.promotionEngine = new PromotionEngine();
     }
@@ -40,7 +40,7 @@ public class CashierMachine {
 
     private void addItem(String barcodeString) {
         Barcode barcode = new Barcode(barcodeString);
-        Product product = catalog.get(barcode.getProductCode());
+        Product product = catalog.findByCode(barcode.getProductCode());
         order.addItem(product, barcode.getQuantity());
     }
 

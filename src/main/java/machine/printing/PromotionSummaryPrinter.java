@@ -1,7 +1,7 @@
 package machine.printing;
 
-import machine.promotion.BuyXGetYFreePromotion;
 import machine.order.Order;
+import machine.promotion.BuyXGetYFreePromotion;
 
 import java.io.PrintStream;
 

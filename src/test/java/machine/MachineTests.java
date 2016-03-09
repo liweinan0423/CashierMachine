@@ -6,7 +6,6 @@ import machine.promotion.PercentagePromotion;
 import org.junit.Before;
 import org.junit.Test;
 
-import static machine.Fixture.catalog;
 import static org.junit.Assert.assertEquals;
 
 public class MachineTests {
@@ -15,7 +14,7 @@ public class MachineTests {
 
     @Before
     public void setUp() {
-        machine = new CashierMachine(catalog);
+        machine = new CashierMachine(new LocalProductCatalog("/fixture.json"));
     }
 
     @Test

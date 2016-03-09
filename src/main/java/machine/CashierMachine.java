@@ -2,7 +2,6 @@ package machine;
 
 import com.google.gson.Gson;
 import machine.order.Barcode;
-import machine.order.Item;
 import machine.order.Order;
 import machine.printing.Printable;
 import machine.printing.ReceiptPrinterBuilder;
@@ -52,8 +51,8 @@ public class CashierMachine {
     public void calculate() {
         order.calculate();
         promotionEngine.apply(order);
-        order.setTotalPrice(order.getItems().stream().mapToDouble(Item::getTotalPayable).sum());
-        order.setTotalSaving(order.getItems().stream().mapToDouble(Item::getSaving).sum());
+        order.calculateTotalPrice();
+        order.calculateTotalSaving();
     }
 
     public String print() {

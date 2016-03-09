@@ -45,4 +45,12 @@ public class Order {
     public void calculate() {
         getItems().forEach(Item::calculate);
     }
+
+    public void calculateTotalSaving() {
+        setTotalSaving(getItems().stream().mapToDouble(Item::getSaving).sum());
+    }
+
+    public void calculateTotalPrice() {
+        setTotalPrice(getItems().stream().mapToDouble(Item::getTotalPayable).sum());
+    }
 }

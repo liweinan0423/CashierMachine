@@ -12,7 +12,7 @@ public class CompositePromotion extends Promotion {
 
 
     @Override
-    boolean supports(Item item) {
+    public boolean supports(Item item) {
         return highPriority.supports(item) || lowPriority.supports(item);
     }
 

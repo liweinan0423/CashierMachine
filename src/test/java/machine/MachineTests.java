@@ -12,7 +12,7 @@ public class MachineTests {
 
     @Before
     public void setUp() {
-        machine = new CashierMachine("没钱赚商店", catalog);
+        machine = new CashierMachine(catalog);
     }
 
     @Test

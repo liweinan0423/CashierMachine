@@ -14,7 +14,7 @@ public abstract class Promotion {
         return productCodes;
     }
 
-    boolean supports(Item item) {
+    public boolean supports(Item item) {
         return getProductCodes().contains(item.getProductCode());
     }
 

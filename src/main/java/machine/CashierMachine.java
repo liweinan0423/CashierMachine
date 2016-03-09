@@ -1,7 +1,11 @@
 package machine;
 
 import com.google.gson.Gson;
+import machine.printing.Printable;
+import machine.printing.ReceiptPrinterBuilder;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.List;
 import java.util.Map;
 
@@ -10,15 +14,12 @@ public class CashierMachine {
     private static Gson GSON = new Gson();
     private PromotionEngine promotionEngine;
 
-    private String storeName;
     public StringBuilder receiptBuilder;
     private Map<String, Product> catalog;
 
     private Order order;
-    private ReceiptPrinter printer;
 
-    public CashierMachine(String storeName, Map<String, Product> catalog) {
-        this.storeName = storeName;
+    public CashierMachine(Map<String, Product> catalog) {
         this.catalog = catalog;
         this.promotionEngine = new PromotionEngine();
     }
@@ -50,10 +51,21 @@ public class CashierMachine {
     }
 
     public String print() {
-        printer = new ReceiptPrinter(storeName, order);
-        printer.printReceipt();
-        return printer.build();
+        Printable printer = createReceiptPrinter();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        printer.print(new PrintStream(out));
+        return out.toString();
     }
+
+    private Printable createReceiptPrinter() {
+        return new ReceiptPrinterBuilder(order).printHeader("***<没钱赚商店>购物清单***")
+                .printItems()
+                .printPromotionSummary()
+                .printOrderSummary()
+                .printFooter("**********")
+                .build();
+    }
+
 
     public void addPromotion(Promotion promotion) {
         promotionEngine.addPromotion(promotion);

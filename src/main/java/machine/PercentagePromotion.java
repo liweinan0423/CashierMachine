@@ -18,7 +18,7 @@ public class PercentagePromotion extends Promotion {
         item.setPromotion(this);
     }
 
-    boolean supports(Item item) {
+    public boolean supports(Item item) {
         return getProductCodes().contains(item.getProductCode());
     }
 }

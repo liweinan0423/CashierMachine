@@ -20,7 +20,7 @@ public class MachineTests {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         promotionEngine = null;
         machine = null;
     }

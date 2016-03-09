@@ -14,7 +14,7 @@ public class BuyXGetYFreePromotion extends Promotion {
         this.y = y;
     }
 
-    public int getX() {
+    private int getX() {
         return x;
     }
 

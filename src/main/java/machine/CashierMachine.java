@@ -19,7 +19,7 @@ public class CashierMachine {
     private static Gson GSON = new Gson();
     private PromotionEngine promotionEngine;
 
-    public StringBuilder receiptBuilder;
+    private StringBuilder receiptBuilder;
     private ProductCatalog catalog;
 
     private Order order;
@@ -72,7 +72,4 @@ public class CashierMachine {
     }
 
 
-    public void addPromotion(Promotion promotion) {
-        promotionEngine.addPromotion(promotion);
-    }
 }

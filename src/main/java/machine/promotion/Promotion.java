@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class Promotion {
-    protected final List<String> productCodes;
+    private final List<String> productCodes;
 
     public Promotion(String... productCodes) {
         this.productCodes = Arrays.asList(productCodes);

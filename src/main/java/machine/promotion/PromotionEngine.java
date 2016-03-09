@@ -22,11 +22,7 @@ public class PromotionEngine {
         return promotions;
     }
 
-    public boolean addPromotion(Promotion percentagePromotion) {
-        return getPromotions().add(percentagePromotion);
-    }
-
-    void apply(Item item) {
+    private void apply(Item item) {
         getPromotions().forEach(promotion -> {
             if (promotion.supports(item)) {
                 promotion.apply(item);

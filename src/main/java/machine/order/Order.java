@@ -7,9 +7,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class Order {
-    List<Item> items = new ArrayList<>();
-    double totalPrice;
-    double totalSaving;
+    private List<Item> items = new ArrayList<>();
+    private double totalPrice;
+    private double totalSaving;
 
     public List<Item> getItems() {
         return items;

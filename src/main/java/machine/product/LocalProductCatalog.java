@@ -24,7 +24,7 @@ public class LocalProductCatalog implements ProductCatalog {
         }
     }
 
-    private List<Product> parseJSON(InputStream inputStream) throws IOException {
+    private List<Product> parseJSON(InputStream inputStream) {
         return new Gson().<List<Product>>fromJson(new InputStreamReader(inputStream), ProductList.class);
     }
 

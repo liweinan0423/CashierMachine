@@ -1,4 +1,6 @@
-package machine;
+package machine.promotion;
+
+import machine.order.Item;
 
 public class BuyXGetYFreePromotion extends Promotion {
     private final int x;

@@ -1,4 +1,6 @@
-package machine;
+package machine.order;
+
+import machine.promotion.Promotion;
 
 public class Item {
     private final Product product;

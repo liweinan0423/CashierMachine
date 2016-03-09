@@ -1,5 +1,7 @@
 package machine;
 
+import machine.order.Product;
+
 import java.util.HashMap;
 import java.util.Map;
 

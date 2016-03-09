@@ -1,4 +1,4 @@
-package machine;
+package machine.order;
 
 public class Barcode {
     private String productCode;

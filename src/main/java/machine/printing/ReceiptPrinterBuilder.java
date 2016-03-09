@@ -1,7 +1,7 @@
 package machine.printing;
 
-import machine.Item;
-import machine.Order;
+import machine.order.Item;
+import machine.order.Order;
 import machine.printing.internal.PrintLn;
 import machine.printing.internal.SequentialPrintable;
 

@@ -1,4 +1,7 @@
-package machine;
+package machine.promotion;
+
+import machine.order.Item;
+import machine.order.Order;
 
 import java.util.ArrayList;
 import java.util.List;

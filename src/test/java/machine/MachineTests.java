@@ -1,5 +1,8 @@
 package machine;
 
+import machine.promotion.BuyXGetYFreePromotion;
+import machine.promotion.CompositePromotion;
+import machine.promotion.PercentagePromotion;
 import org.junit.Before;
 import org.junit.Test;
 

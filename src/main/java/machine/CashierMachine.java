@@ -1,8 +1,14 @@
 package machine;
 
 import com.google.gson.Gson;
+import machine.order.Barcode;
+import machine.order.Item;
+import machine.order.Order;
 import machine.printing.Printable;
 import machine.printing.ReceiptPrinterBuilder;
+import machine.order.Product;
+import machine.promotion.Promotion;
+import machine.promotion.PromotionEngine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

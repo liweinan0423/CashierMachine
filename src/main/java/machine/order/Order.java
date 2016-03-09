@@ -1,4 +1,4 @@
-package machine;
+package machine.order;
 
 import java.util.ArrayList;
 import java.util.List;

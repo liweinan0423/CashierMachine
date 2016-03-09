@@ -1,6 +1,6 @@
 package machine.printing;
 
-import machine.Order;
+import machine.order.Order;
 
 import java.io.PrintStream;
 

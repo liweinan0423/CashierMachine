@@ -1,7 +1,7 @@
 package machine.printing;
 
-import machine.Item;
-import machine.PercentagePromotion;
+import machine.order.Item;
+import machine.promotion.PercentagePromotion;
 
 import java.io.PrintStream;
 

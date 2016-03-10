@@ -18,7 +18,6 @@ public class CashierMachine {
     private static Gson GSON = new Gson();
     private PromotionEngine promotionEngine;
 
-    private StringBuilder receiptBuilder;
     private ProductCatalog catalog;
 
     private Order order;
@@ -28,9 +27,8 @@ public class CashierMachine {
         this.promotionEngine = promotionEngine;
     }
 
-    public void start() {
+    public void reset() {
         this.order = new Order();
-        receiptBuilder = new StringBuilder();
     }
 
     public void scan(String input) {

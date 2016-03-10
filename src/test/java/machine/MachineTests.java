@@ -28,7 +28,7 @@ public class MachineTests {
 
     @Test
     public void one_item() {
-        machine.start();
+        machine.reset();
         machine.scan("[ITEM001]");
         machine.calculate();
         String receipt = machine.print();
@@ -44,7 +44,7 @@ public class MachineTests {
 
     @Test
     public void one_item_multiple() {
-        machine.start();
+        machine.reset();
         machine.scan("['ITEM001', 'ITEM001']");
         machine.calculate();
         String receipt = machine.print();
@@ -59,7 +59,7 @@ public class MachineTests {
 
     @Test
     public void multiple_items() {
-        machine.start();
+        machine.reset();
         machine.scan("['ITEM001', 'ITEM002', 'ITEM002']");
         machine.calculate();
         String receipt = machine.print();
@@ -74,7 +74,7 @@ public class MachineTests {
 
     @Test
     public void item_with_quantity() {
-        machine.start();
+        machine.reset();
         machine.scan("['ITEM003-2']");
         machine.calculate();
         String receipt = machine.print();
@@ -88,7 +88,7 @@ public class MachineTests {
 
     @Test
     public void same_item_with_quantity_multiple_times() {
-        machine.start();
+        machine.reset();
         machine.scan("['ITEM003-2', 'ITEM003-2']");
         machine.calculate();
         String receipt = machine.print();
@@ -103,7 +103,7 @@ public class MachineTests {
     @Test
     public void item_with_percentage_promotion() {
         promotionEngine.loadPromotion("/fixtures/promotions_percentage.json");
-        machine.start();
+        machine.reset();
         machine.scan("[ITEM001]");
         machine.calculate();
         String receipt = machine.print();
@@ -120,7 +120,7 @@ public class MachineTests {
     @Test
     public void item_with_buy_x_get_y_free_promotion() {
         promotionEngine.loadPromotion("/fixtures/promotions_buy_get.json");
-        machine.start();
+        machine.reset();
         machine.scan("[ITEM001,ITEM001,ITEM001]");
         machine.calculate();
         String receipt = machine.print();
@@ -140,7 +140,7 @@ public class MachineTests {
     @Test
     public void buy_only_one_will_not_get_free() {
         promotionEngine.loadPromotion("/fixtures/promotions_buy_get.json");
-        machine.start();
+        machine.reset();
         machine.scan("[ITEM001]");
         machine.calculate();
         String receipt = machine.print();
@@ -156,7 +156,7 @@ public class MachineTests {
     @Test
     public void buy_get_promotion_should_supersede_percentage_promotion() {
         promotionEngine.loadPromotion("/fixtures/promotions_both.json");
-        machine.start();
+        machine.reset();
         machine.scan("[ITEM001, ITEM001]");
         machine.calculate();
         String receipt = machine.print();
@@ -175,7 +175,7 @@ public class MachineTests {
     @Test
     public void mixed_order() {
         promotionEngine.loadPromotion("/fixtures/promotions_mixed.json");
-        machine.start();
+        machine.reset();
         machine.scan("[ITEM001, ITEM001, ITEM002, ITEM003-2]");
         machine.calculate();
         String receipt = machine.print();

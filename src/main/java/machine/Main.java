@@ -4,24 +4,19 @@ import machine.machine.CashierMachine;
 import machine.product.LocalProductCatalog;
 import machine.promotion.PromotionEngine;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 import static java.lang.System.exit;
 
 public class Main {
 
     private static CashierMachine machine;
 
-    public static void main(String[] args) {
-        checkArgs(args);
+    public static void main(String[] args) throws IOException {
         setup();
-        run(args[0]);
-        print(machine.print());
-    }
-
-    private static void checkArgs(String[] args) {
-        if (args.length != 1) {
-            printUsage();
-            exit(1);
-        }
+        run();
     }
 
     private static void setup() {
@@ -30,17 +25,35 @@ public class Main {
         machine = new CashierMachine(new LocalProductCatalog("/products.json"), promotionEngine);
     }
 
-    private static void run(String arg) {
-        machine.start();
-        machine.scan(arg);
-        machine.calculate();
+    private static void run() throws IOException {
+        while (true) {
+            machine.reset();
+            prompt();
+            String line = scan();
+            if (userTypesExit(line)) {
+                exit(0);
+            } else {
+                machine.scan(line);
+                machine.calculate();
+                print(machine.print());
+            }
+        }
+    }
+
+    private static boolean userTypesExit(String line) {
+        return "exit".equalsIgnoreCase(line);
+    }
+
+    private static void prompt() {
+        print("Please type barcodes, format is like ['ITEM001','ITEM002',...]");
+        print("Type 'exit' to close the machine...");
+    }
+
+    private static String scan() throws IOException {
+        return new BufferedReader(new InputStreamReader(System.in)).readLine();
     }
 
     private static void print(String print) {
         System.out.println(print);
-    }
-
-    private static void printUsage() {
-        print("usage: java machine.Main ['ITEM001','ITEM002']");
     }
 }

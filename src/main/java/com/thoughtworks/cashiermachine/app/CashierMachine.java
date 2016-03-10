@@ -1,13 +1,13 @@
-package machine.machine;
+package com.thoughtworks.cashiermachine.app;
 
+import com.thoughtworks.cashiermachine.printing.ReceiptPrinterBuilder;
+import com.thoughtworks.cashiermachine.product.ProductCatalog;
 import com.google.gson.Gson;
-import machine.order.Barcode;
-import machine.order.Order;
-import machine.printing.Printable;
-import machine.printing.ReceiptPrinterBuilder;
-import machine.product.Product;
-import machine.product.ProductCatalog;
-import machine.promotion.PromotionEngine;
+import com.thoughtworks.cashiermachine.order.Barcode;
+import com.thoughtworks.cashiermachine.order.Order;
+import com.thoughtworks.cashiermachine.printing.Printable;
+import com.thoughtworks.cashiermachine.product.Product;
+import com.thoughtworks.cashiermachine.promotion.PromotionEngine;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;

@@ -1,7 +1,7 @@
-package machine.printing;
+package com.thoughtworks.cashiermachine.printing;
 
-import machine.order.Item;
-import machine.promotion.PercentagePromotion;
+import com.thoughtworks.cashiermachine.promotion.PercentagePromotion;
+import com.thoughtworks.cashiermachine.order.Item;
 
 import java.io.PrintStream;
 

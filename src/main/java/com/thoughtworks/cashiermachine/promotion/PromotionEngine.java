@@ -1,8 +1,8 @@
-package machine.promotion;
+package com.thoughtworks.cashiermachine.promotion;
 
+import com.thoughtworks.cashiermachine.order.Item;
 import com.google.gson.Gson;
-import machine.order.Item;
-import machine.order.Order;
+import com.thoughtworks.cashiermachine.order.Order;
 
 import java.io.IOException;
 import java.io.InputStream;

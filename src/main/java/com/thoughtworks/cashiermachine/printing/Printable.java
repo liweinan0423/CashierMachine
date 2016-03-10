@@ -1,4 +1,4 @@
-package machine.printing;
+package com.thoughtworks.cashiermachine.printing;
 
 import java.io.PrintStream;
 

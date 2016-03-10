@@ -1,6 +1,6 @@
-package machine.printing;
+package com.thoughtworks.cashiermachine.printing;
 
-import machine.order.Order;
+import com.thoughtworks.cashiermachine.order.Order;
 
 import java.io.PrintStream;
 

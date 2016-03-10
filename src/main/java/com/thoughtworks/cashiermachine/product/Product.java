@@ -1,4 +1,4 @@
-package machine.product;
+package com.thoughtworks.cashiermachine.product;
 
 public class Product {
     private final String productCode;

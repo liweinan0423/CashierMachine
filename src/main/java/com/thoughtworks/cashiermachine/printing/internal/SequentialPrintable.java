@@ -1,6 +1,6 @@
-package machine.printing.internal;
+package com.thoughtworks.cashiermachine.printing.internal;
 
-import machine.printing.Printable;
+import com.thoughtworks.cashiermachine.printing.Printable;
 
 import java.io.PrintStream;
 import java.util.List;

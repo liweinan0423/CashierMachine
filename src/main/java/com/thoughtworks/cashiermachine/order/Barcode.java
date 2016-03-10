@@ -1,4 +1,4 @@
-package machine.order;
+package com.thoughtworks.cashiermachine.order;
 
 public class Barcode {
     private String productCode;

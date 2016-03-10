@@ -1,7 +1,7 @@
-package machine.order;
+package com.thoughtworks.cashiermachine.order;
 
-import machine.product.Product;
-import machine.promotion.Promotion;
+import com.thoughtworks.cashiermachine.product.Product;
+import com.thoughtworks.cashiermachine.promotion.Promotion;
 
 public class Item {
     private final Product product;

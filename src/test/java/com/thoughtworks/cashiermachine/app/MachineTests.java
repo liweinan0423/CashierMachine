@@ -1,8 +1,7 @@
-package machine;
+package com.thoughtworks.cashiermachine.app;
 
-import machine.machine.CashierMachine;
-import machine.product.LocalProductCatalog;
-import machine.promotion.PromotionEngine;
+import com.thoughtworks.cashiermachine.product.LocalProductCatalog;
+import com.thoughtworks.cashiermachine.promotion.PromotionEngine;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

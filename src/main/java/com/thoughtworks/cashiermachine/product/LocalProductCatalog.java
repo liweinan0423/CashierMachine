@@ -1,4 +1,4 @@
-package machine.product;
+package com.thoughtworks.cashiermachine.product;
 
 import com.google.gson.Gson;
 

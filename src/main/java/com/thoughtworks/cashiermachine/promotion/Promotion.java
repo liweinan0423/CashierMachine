@@ -1,6 +1,6 @@
-package machine.promotion;
+package com.thoughtworks.cashiermachine.promotion;
 
-import machine.order.Item;
+import com.thoughtworks.cashiermachine.order.Item;
 
 import java.util.Arrays;
 import java.util.List;

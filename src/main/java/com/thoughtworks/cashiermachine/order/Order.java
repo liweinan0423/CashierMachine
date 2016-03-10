@@ -1,6 +1,6 @@
-package machine.order;
+package com.thoughtworks.cashiermachine.order;
 
-import machine.product.Product;
+import com.thoughtworks.cashiermachine.product.Product;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
-package machine;
+package com.thoughtworks.cashiermachine;
 
-import machine.machine.CashierMachine;
-import machine.product.LocalProductCatalog;
-import machine.promotion.PromotionEngine;
+import com.thoughtworks.cashiermachine.app.CashierMachine;
+import com.thoughtworks.cashiermachine.promotion.PromotionEngine;
+import com.thoughtworks.cashiermachine.product.LocalProductCatalog;
 
 import java.io.BufferedReader;
 import java.io.IOException;

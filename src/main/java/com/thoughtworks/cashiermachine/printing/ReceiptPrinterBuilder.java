@@ -1,9 +1,9 @@
-package machine.printing;
+package com.thoughtworks.cashiermachine.printing;
 
-import machine.order.Item;
-import machine.order.Order;
-import machine.printing.internal.PrintLn;
-import machine.printing.internal.SequentialPrintable;
+import com.thoughtworks.cashiermachine.printing.internal.PrintLn;
+import com.thoughtworks.cashiermachine.order.Item;
+import com.thoughtworks.cashiermachine.order.Order;
+import com.thoughtworks.cashiermachine.printing.internal.SequentialPrintable;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -11,10 +11,10 @@ To compile from the source code, run all the test cases and build jars:
 
 `./gradlew build`
 
-To run the application, import the project into an IDE and run the `machine.Main` class
+To run the application, import the project into an IDE and run the `com.thoughtworks.cashiermachine.Main` class
 
 ### Configure product and promotion data
-The samle products and promotions data is contained the following files
+Some samle products and promotions data is contained the following files
 
 * src/main/resources/products.json
 * src/main/resources/promotions.json
@@ -31,7 +31,7 @@ There are 3 kinds of predefined promotion rules
 
 3. Composite promotion
 
-Sometimes one product may be eligible for multiple promotions, but only the high priority promotion will take place. 
+Sometimes one product may be eligible for multiple promotions, but only the high priority promotion will take place.
 In promotion settings we can combine promotions of different priorities into one promotion that contains a high priority promotion
-as well as a low priority promotion. When this compisite promotion gets applied, it will determine which promotion will be applied to 
+as well as a low priority promotion. When this compisite promotion gets applied, it will determine which promotion will be applied to
 the product. See `src/main/resources/promotions.json` for example.

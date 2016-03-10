@@ -1,8 +1,8 @@
-package machine.printing;
+package com.thoughtworks.cashiermachine.printing;
 
-import machine.order.Item;
-import machine.order.Order;
-import machine.promotion.BuyXGetYFreePromotion;
+import com.thoughtworks.cashiermachine.order.Item;
+import com.thoughtworks.cashiermachine.order.Order;
+import com.thoughtworks.cashiermachine.promotion.BuyXGetYFreePromotion;
 
 import java.io.PrintStream;
 

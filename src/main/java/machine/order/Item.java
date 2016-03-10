@@ -5,9 +5,9 @@ import machine.promotion.Promotion;
 
 public class Item {
     private final Product product;
-    private double subTotal;
     private int quantity;
-    private double totalPayable;
+    private double subTotal;
+    private double saving;
     private Promotion promotion;
 
     public Item(Product product) {
@@ -20,25 +20,19 @@ public class Item {
         setQuantity(quantity);
     }
 
+    /**
+     * calculate price before applying any promotion
+     */
     public void calculate() {
-        this.setSubTotal(getPrice() * getQuantity());
-        this.setTotalPayable(getPrice() * getQuantity());
+        this.setSubTotal(getProduct().getPrice() * getQuantity());
     }
 
-    public String getName() {
-        return getProduct().getName();
+    public void increaseBy(int quantity) {
+        setQuantity(getQuantity() + quantity);
     }
 
     public int getQuantity() {
         return quantity;
-    }
-
-    public String getUnit() {
-        return getProduct().getUnit();
-    }
-
-    public double getPrice() {
-        return getProduct().getPrice();
     }
 
     public String getProductCode() {
@@ -49,25 +43,16 @@ public class Item {
         this.quantity = quantity;
     }
 
-
-    public double getTotalPayable() {
-        return totalPayable;
-    }
-
     public double getSaving() {
-        return getSubTotal() - getTotalPayable();
+        return saving;
     }
 
-    public int getFreeQuantity() {
-        return (int) (getSaving() / getPrice());
+    public void setSaving(double saving) {
+        this.saving = saving;
     }
 
     public Product getProduct() {
         return product;
-    }
-
-    void increaseBy(int quantity) {
-        setQuantity(getQuantity() + quantity);
     }
 
     public double getSubTotal() {
@@ -76,10 +61,6 @@ public class Item {
 
     public void setSubTotal(double subTotal) {
         this.subTotal = subTotal;
-    }
-
-    public void setTotalPayable(double totalPayable) {
-        this.totalPayable = totalPayable;
     }
 
     public void setPromotion(Promotion promotion) {

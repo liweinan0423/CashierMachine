@@ -29,8 +29,13 @@ public class BuyXGetYFreePromotion extends Promotion {
 
     @Override
     public void apply(Item item) {
-        item.setQuantity(item.getQuantity() + item.getQuantity() / getX() * getY());
-        item.setSubTotal(item.getQuantity() * item.getPrice());
+        final int freeQuantity = freeQuantity(item);
+        item.increaseBy(freeQuantity);
+        item.setSaving(freeQuantity * item.getProduct().getPrice());
         item.setPromotion(this);
+    }
+
+    private int freeQuantity(Item item) {
+        return item.getQuantity() / getX() * getY();
     }
 }

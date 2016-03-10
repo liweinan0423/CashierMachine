@@ -53,6 +53,6 @@ public class Order {
     }
 
     public void calculateTotalPrice() {
-        setTotalPrice(getItems().stream().mapToDouble(Item::getTotalPayable).sum());
+        setTotalPrice(getItems().stream().mapToDouble(Item::getSubTotal).sum());
     }
 }

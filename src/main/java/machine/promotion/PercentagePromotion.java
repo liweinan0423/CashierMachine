@@ -18,7 +18,8 @@ public class PercentagePromotion extends Promotion {
 
     @Override
     public void apply(Item item) {
-        item.setTotalPayable(item.getSubTotal() * getPercentage());
+        item.setSaving(item.getSubTotal() * (1 - percentage));
+        item.setSubTotal(item.getSubTotal() * getPercentage());
         item.setPromotion(this);
     }
 

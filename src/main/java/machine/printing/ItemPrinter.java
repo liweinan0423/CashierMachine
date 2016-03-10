@@ -22,7 +22,7 @@ public class ItemPrinter implements Printable {
                 item.getQuantity(),
                 item.getProduct().getUnit(),
                 item.getProduct().getPrice(),
-                item.getTotalPayable()));
+                item.getSubTotal()));
 
         if (shouldPrintSaving()) {
             builder.append(String.format(", 节省%.2f(元)", item.getSaving()));
